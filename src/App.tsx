@@ -11,7 +11,7 @@ function App() {
             Notenrechner
           </h1>
           <p className="mt-1 text-gray-600">
-            Berechne deinen gewichteten Notendurchschnitt
+            Berechne deinen gewichteten Notendurchschnitt nach Stiwl vorgaben
           </p>
         </div>
       </header>
