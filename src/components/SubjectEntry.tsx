@@ -16,10 +16,18 @@ const SubjectEntry: React.FC<SubjectEntryProps> = ({
 }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    onChange({
-      ...subject,
-      [name]: value
-    });
+    
+    if (name === 'weightType') {
+      // Reset the other weight type when switching
+      const updates = {
+        weightType: value,
+        multipleWeight: value === 'multiple' ? '1' : '',
+        percentWeight: value === 'percent' ? '20' : ''
+      };
+      onChange({ ...subject, ...updates });
+    } else {
+      onChange({ ...subject, [name]: value });
+    }
   };
 
   return (
@@ -46,19 +54,43 @@ const SubjectEntry: React.FC<SubjectEntryProps> = ({
       />
 
       <select
-        name="percentWeight"
-        value={subject.percentWeight}
+        name="weightType"
+        value={subject.weightType}
         onChange={handleChange}
-        className="w-28 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        className="w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
       >
-        <option value="">Gewichtung</option>
-        <option value="20">20%</option>
-        <option value="25">25%</option>
-        <option value="30">30%</option>
-        <option value="35">35%</option>
-        <option value="40">40%</option>
-        <option value="50">50%</option>
+        <option value="percent">Prozentual</option>
+        <option value="multiple">Mehrfach</option>
       </select>
+
+      {subject.weightType === 'percent' ? (
+        <select
+          name="percentWeight"
+          value={subject.percentWeight}
+          onChange={handleChange}
+          className="w-28 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        >
+          <option value="">Gewichtung</option>
+          <option value="20">20%</option>
+          <option value="25">25%</option>
+          <option value="30">30%</option>
+          <option value="35">35%</option>
+          <option value="40">40%</option>
+          <option value="50">50%</option>
+        </select>
+      ) : (
+        <select
+          name="multipleWeight"
+          value={subject.multipleWeight}
+          onChange={handleChange}
+          className="w-28 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        >
+          <option value="1">1-fach</option>
+          <option value="2">2-fach</option>
+          <option value="3">3-fach</option>
+          <option value="4">4-fach</option>
+        </select>
+      )}
       
       {isRemovable && (
         <button

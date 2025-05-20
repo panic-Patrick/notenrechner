@@ -18,8 +18,8 @@ const GradeCalculator: React.FC = () => {
         id: uuidv4(),
         name: '',
         grade: '',
-        weightType: 'stiwl' as const,
-        multipleWeight: '1',
+        weightType: 'percent' as const,
+        multipleWeight: '',
         percentWeight: '',
         category: 'exam' as const
       })),
@@ -28,8 +28,8 @@ const GradeCalculator: React.FC = () => {
         id: uuidv4(),
         name: '',
         grade: '',
-        weightType: 'stiwl' as const,
-        multipleWeight: '1',
+        weightType: 'percent' as const,
+        multipleWeight: '',
         percentWeight: '',
         category: 'assignment' as const
       })),
@@ -38,8 +38,8 @@ const GradeCalculator: React.FC = () => {
         id: uuidv4(),
         name: '',
         grade: '',
-        weightType: 'stiwl' as const,
-        multipleWeight: '1',
+        weightType: 'percent' as const,
+        multipleWeight: '',
         percentWeight: '',
         category: 'practical' as const
       }))
@@ -58,8 +58,8 @@ const GradeCalculator: React.FC = () => {
       id: uuidv4(),
       name: '',
       grade: '',
-      weightType: 'stiwl',
-      multipleWeight: '1',
+      weightType: 'percent',
+      multipleWeight: '',
       percentWeight: '',
       category
     };
@@ -71,11 +71,19 @@ const GradeCalculator: React.FC = () => {
   };
 
   const validateWeights = (categorySubjects: Subject[]): boolean => {
-    const totalWeight = categorySubjects
-      .filter(subject => subject.grade && subject.percentWeight)
-      .reduce((sum, subject) => sum + parseFloat(subject.percentWeight || '0'), 0);
+    const percentSubjects = categorySubjects.filter(
+      subject => subject.grade && subject.weightType === 'percent' && subject.percentWeight
+    );
     
-    return Math.abs(totalWeight - 100) < 0.01;
+    if (percentSubjects.length > 0) {
+      const totalWeight = percentSubjects.reduce(
+        (sum, subject) => sum + parseFloat(subject.percentWeight || '0'), 
+        0
+      );
+      return Math.abs(totalWeight - 100) < 0.01;
+    }
+    
+    return true;
   };
 
   const calculateAverage = () => {
@@ -91,7 +99,7 @@ const GradeCalculator: React.FC = () => {
 
     // Validate weights for each category
     for (const [category, subjectList] of Object.entries(categorySubjects)) {
-      const activeSubjects = subjectList.filter(s => s.grade && s.percentWeight);
+      const activeSubjects = subjectList.filter(s => s.grade);
       if (activeSubjects.length > 0 && !validateWeights(activeSubjects)) {
         setError(`Die Gewichtungen in ${category === 'exam' ? 'Klausuren' : 
                  category === 'assignment' ? 'Hausarbeiten' : 
@@ -108,12 +116,25 @@ const GradeCalculator: React.FC = () => {
 
     // Calculate weighted averages for each category
     Object.entries(categorySubjects).forEach(([category, subjectList]) => {
-      const activeSubjects = subjectList.filter(s => s.grade && s.percentWeight);
+      const activeSubjects = subjectList.filter(s => s.grade);
+      
       if (activeSubjects.length > 0) {
-        categoryAverages[category as keyof typeof categoryAverages] = activeSubjects.reduce(
-          (sum, subject) => sum + (parseFloat(subject.grade) * parseFloat(subject.percentWeight || '0') / 100),
-          0
-        );
+        let categorySum = 0;
+        let totalWeight = 0;
+
+        activeSubjects.forEach(subject => {
+          const grade = parseFloat(subject.grade);
+          if (subject.weightType === 'percent') {
+            categorySum += grade * (parseFloat(subject.percentWeight || '0') / 100);
+          } else {
+            const weight = parseFloat(subject.multipleWeight || '1');
+            categorySum += grade * weight;
+            totalWeight += weight;
+          }
+        });
+
+        categoryAverages[category as keyof typeof categoryAverages] = 
+          subject.weightType === 'percent' ? categorySum : categorySum / totalWeight;
       }
     });
 
@@ -144,11 +165,13 @@ const GradeCalculator: React.FC = () => {
 
     // Add individual grades to results
     const individualResults: GradeResult[] = subjects
-      .filter(subject => subject.grade && subject.percentWeight)
+      .filter(subject => subject.grade)
       .map(subject => ({
         subjectName: subject.name || 'Unbenanntes Fach',
         grade: parseFloat(subject.grade),
-        weight: `${subject.percentWeight}%`,
+        weight: subject.weightType === 'percent' ? 
+          `${subject.percentWeight}%` : 
+          `${subject.multipleWeight}-fach`,
         category: subject.category
       }));
 
@@ -158,9 +181,13 @@ const GradeCalculator: React.FC = () => {
 
   const renderSection = (title: string, category: 'exam' | 'assignment' | 'practical', weight: number) => {
     const categorySubjects = subjects.filter(s => s.category === category);
-    const totalWeight = categorySubjects
-      .filter(s => s.grade && s.percentWeight)
-      .reduce((sum, s) => sum + parseFloat(s.percentWeight || '0'), 0);
+    const percentSubjects = categorySubjects.filter(
+      s => s.grade && s.weightType === 'percent' && s.percentWeight
+    );
+    const totalWeight = percentSubjects.reduce(
+      (sum, s) => sum + parseFloat(s.percentWeight || '0'), 
+      0
+    );
 
     return (
       <div className="mb-8">
