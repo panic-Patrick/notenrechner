@@ -18,8 +18,8 @@ const GradeCalculator: React.FC = () => {
         id: uuidv4(),
         name: '',
         grade: '',
-        weightType: 'percent' as const,
-        multipleWeight: '',
+        weightType: 'multiple' as const,
+        multipleWeight: '1',
         percentWeight: '',
         category: 'exam' as const
       })),
@@ -28,8 +28,8 @@ const GradeCalculator: React.FC = () => {
         id: uuidv4(),
         name: '',
         grade: '',
-        weightType: 'percent' as const,
-        multipleWeight: '',
+        weightType: 'multiple' as const,
+        multipleWeight: '1',
         percentWeight: '',
         category: 'assignment' as const
       })),
@@ -38,8 +38,8 @@ const GradeCalculator: React.FC = () => {
         id: uuidv4(),
         name: '',
         grade: '',
-        weightType: 'percent' as const,
-        multipleWeight: '',
+        weightType: 'multiple' as const,
+        multipleWeight: '1',
         percentWeight: '',
         category: 'practical' as const
       }))
@@ -58,8 +58,8 @@ const GradeCalculator: React.FC = () => {
       id: uuidv4(),
       name: '',
       grade: '',
-      weightType: 'percent',
-      multipleWeight: '',
+      weightType: 'multiple',
+      multipleWeight: '1',
       percentWeight: '',
       category
     };
@@ -134,7 +134,7 @@ const GradeCalculator: React.FC = () => {
         });
 
         categoryAverages[category as keyof typeof categoryAverages] = 
-          subject.weightType === 'percent' ? categorySum : categorySum / totalWeight;
+          totalWeight > 0 ? categorySum / totalWeight : categorySum;
       }
     });
 
