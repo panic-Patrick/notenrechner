@@ -1,5 +1,8 @@
+## 🚦 Service Status:
+
 ![Notenrechner Status](https://uptime.kaempf.nrw/api/badge/1/status?upLabel=Online&downLabel=Offline&upColor=brightgreen&downColor=red)
 
+---
 
 # 🎓 Notenrechner
 
