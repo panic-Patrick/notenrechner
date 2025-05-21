@@ -30,7 +30,7 @@ function App() {
               Notenrechner
             </h1>
             <p className="mt-1 text-gray-600 dark:text-gray-300 text-sm md:text-base">
-              Berechne deinen gewichteten Notendurchschnitt nach vorgaben des VL2
+              Berechne deinen gewichteten Punktedurchschnitt nach vorgaben des VL2
             </p>
           </div>
           <button
