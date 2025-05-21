@@ -1,3 +1,6 @@
+![Notenrechner Status](https://uptime.kaempf.nrw/api/badge/1/status?upLabel=Online&downLabel=Offline&upColor=brightgreen&downColor=red)
+
+
 # 🎓 Notenrechner
 
 Ein moderner und intuitiver Notenrechner zur schnellen Berechnung von Durchschnittsergebnissen (Noten und Punkten) für den Verwaltungslehrgang II (VL II) – ideal für Schüler:innen und Lehrkräfte.
