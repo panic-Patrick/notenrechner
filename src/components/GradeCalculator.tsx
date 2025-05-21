@@ -143,11 +143,12 @@ const GradeCalculator: React.FC = () => {
     const categorySubjects = subjects.filter(s => s.category === category);
 
     return (
-      <div className="mb-8">
-        <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-3 border-b pb-2">
-          {title} ({weight}%)
+      <div className="mb-8 bg-white/50 dark:bg-gray-800/50 p-6 rounded-xl backdrop-blur-sm">
+        <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4 pb-2 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+          <span>{title}</span>
+          <span className="text-sm font-normal text-gray-600 dark:text-gray-400">({weight}%)</span>
         </h3>
-        <div className="space-y-3">
+        <div className="space-y-4">
           {categorySubjects.map(subject => (
             <SubjectEntry
               key={subject.id}
@@ -160,7 +161,7 @@ const GradeCalculator: React.FC = () => {
         </div>
         <button
           onClick={() => addSubject(category)}
-          className="mt-3 px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-200 rounded-md hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors duration-200"
+          className="mt-4 px-4 py-2 text-sm bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-200 rounded-md hover:bg-blue-200 dark:hover:bg-blue-800 transition-all duration-200 hover:scale-105"
         >
           + Weiteres Fach hinzufügen
         </button>
@@ -170,7 +171,7 @@ const GradeCalculator: React.FC = () => {
 
   return (
     <div className="w-full max-w-4xl mx-auto">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6 transition-colors duration-200">
+      <div className="bg-white/80 dark:bg-gray-800/80 rounded-xl shadow-lg p-6 mb-6 backdrop-blur-sm transition-all duration-200">
         <h2 className="text-xl font-bold mb-6 text-gray-800 dark:text-white">Noteneingabe</h2>
         
         {renderSection('Klausuren', 'exam', STIWL_WEIGHTS.exam)}
@@ -180,7 +181,7 @@ const GradeCalculator: React.FC = () => {
         <div className="mt-6">
           <button
             onClick={calculateAverage}
-            className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors duration-200 flex items-center"
+            className="w-full sm:w-auto px-6 py-3 bg-green-500 text-white rounded-md hover:bg-green-600 transition-all duration-200 hover:scale-105 font-medium text-lg"
           >
             Durchschnitt berechnen
           </button>
