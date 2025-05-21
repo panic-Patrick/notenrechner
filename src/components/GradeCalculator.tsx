@@ -11,9 +11,7 @@ const GradeCalculator: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Initialize with subjects for each category
     const initialSubjects = [
-      // Klausuren (5 entries)
       ...Array(5).fill(null).map(() => ({
         id: uuidv4(),
         name: '',
@@ -23,7 +21,6 @@ const GradeCalculator: React.FC = () => {
         percentWeight: '',
         category: 'exam' as const
       })),
-      // Hausarbeiten (2 entries)
       ...Array(2).fill(null).map(() => ({
         id: uuidv4(),
         name: '',
@@ -33,7 +30,6 @@ const GradeCalculator: React.FC = () => {
         percentWeight: '',
         category: 'assignment' as const
       })),
-      // Praktische Prüfungen (2 entries)
       ...Array(2).fill(null).map(() => ({
         id: uuidv4(),
         name: '',
@@ -191,10 +187,10 @@ const GradeCalculator: React.FC = () => {
 
     return (
       <div className="mb-8">
-        <h3 className="text-lg font-semibold text-gray-800 mb-3 border-b pb-2">
+        <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-3 border-b pb-2">
           {title} ({weight}%)
           {totalWeight > 0 && (
-            <span className="text-sm font-normal text-gray-600 ml-2">
+            <span className="text-sm font-normal text-gray-600 dark:text-gray-300 ml-2">
               Aktuelle Gewichtung: {totalWeight}%
             </span>
           )}
@@ -212,7 +208,7 @@ const GradeCalculator: React.FC = () => {
         </div>
         <button
           onClick={() => addSubject(category)}
-          className="mt-3 px-3 py-1 text-sm bg-blue-100 text-blue-600 rounded-md hover:bg-blue-200 transition-colors duration-200"
+          className="mt-3 px-3 py-1 text-sm bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-200 rounded-md hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors duration-200"
         >
           + Weiteres Fach hinzufügen
         </button>
@@ -222,8 +218,8 @@ const GradeCalculator: React.FC = () => {
 
   return (
     <div className="w-full max-w-4xl mx-auto">
-      <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-        <h2 className="text-xl font-bold mb-6 text-gray-800">Noteneingabe</h2>
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6 transition-colors duration-200">
+        <h2 className="text-xl font-bold mb-6 text-gray-800 dark:text-white">Noteneingabe</h2>
         
         {renderSection('Klausuren', 'exam', STIWL_WEIGHTS.exam)}
         {renderSection('Hausarbeiten', 'assignment', STIWL_WEIGHTS.assignment)}

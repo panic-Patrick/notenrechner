@@ -18,7 +18,6 @@ const SubjectEntry: React.FC<SubjectEntryProps> = ({
     const { name, value } = e.target;
     
     if (name === 'weightType') {
-      // Reset the other weight type when switching
       const updates = {
         weightType: value,
         multipleWeight: value === 'multiple' ? '1' : '',
@@ -30,15 +29,17 @@ const SubjectEntry: React.FC<SubjectEntryProps> = ({
     }
   };
 
+  const inputClasses = "px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white";
+
   return (
-    <div className="flex flex-wrap items-center gap-3 p-3 rounded-lg bg-gray-50 shadow-sm transition-all duration-300 hover:shadow-md">
+    <div className="flex flex-wrap items-center gap-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-700 shadow-sm transition-all duration-300 hover:shadow-md">
       <input
         type="text"
         name="name"
         value={subject.name}
         onChange={handleChange}
         placeholder="Fach"
-        className="flex-1 min-w-[120px] px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        className={`flex-1 min-w-[120px] ${inputClasses}`}
       />
       
       <input
@@ -50,14 +51,14 @@ const SubjectEntry: React.FC<SubjectEntryProps> = ({
         min="1"
         max="6"
         step="0.1"
-        className="w-24 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        className={`w-24 ${inputClasses}`}
       />
 
       <select
         name="weightType"
         value={subject.weightType}
         onChange={handleChange}
-        className="w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        className={`w-32 ${inputClasses}`}
       >
         <option value="multiple">Mehrfach</option>
         <option value="percent">Prozentual</option>
@@ -68,7 +69,7 @@ const SubjectEntry: React.FC<SubjectEntryProps> = ({
           name="percentWeight"
           value={subject.percentWeight}
           onChange={handleChange}
-          className="w-28 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className={`w-28 ${inputClasses}`}
         >
           <option value="">Gewichtung</option>
           <option value="20">20%</option>
@@ -83,7 +84,7 @@ const SubjectEntry: React.FC<SubjectEntryProps> = ({
           name="multipleWeight"
           value={subject.multipleWeight}
           onChange={handleChange}
-          className="w-28 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          className={`w-28 ${inputClasses}`}
         >
           <option value="1">1-fach</option>
           <option value="2">2-fach</option>
@@ -95,7 +96,7 @@ const SubjectEntry: React.FC<SubjectEntryProps> = ({
       {isRemovable && (
         <button
           onClick={onRemove}
-          className="p-2 text-red-600 hover:bg-red-100 rounded-full transition-colors duration-200"
+          className="p-2 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900 rounded-full transition-colors duration-200"
           aria-label="Fach entfernen"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
