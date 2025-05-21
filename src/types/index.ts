@@ -2,7 +2,7 @@ export interface Subject {
   id: string;
   name: string;
   grade: string;
-  weightType: 'multiple' | 'percent';
+  weightType: 'multiple';
   multipleWeight: string;
   percentWeight: string;
   category?: 'exam' | 'assignment' | 'practical';

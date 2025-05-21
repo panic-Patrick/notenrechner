@@ -66,22 +66,6 @@ const GradeCalculator: React.FC = () => {
     setSubjects(subjects.filter(subject => subject.id !== id));
   };
 
-  const validateWeights = (categorySubjects: Subject[]): boolean => {
-    const percentSubjects = categorySubjects.filter(
-      subject => subject.grade && subject.weightType === 'percent' && subject.percentWeight
-    );
-    
-    if (percentSubjects.length > 0) {
-      const totalWeight = percentSubjects.reduce(
-        (sum, subject) => sum + parseFloat(subject.percentWeight || '0'), 
-        0
-      );
-      return Math.abs(totalWeight - 100) < 0.01;
-    }
-    
-    return true;
-  };
-
   const calculateAverage = () => {
     setError(null);
     setResults([]);
@@ -93,24 +77,12 @@ const GradeCalculator: React.FC = () => {
       practical: subjects.filter(s => s.category === 'practical')
     };
 
-    // Validate weights for each category
-    for (const [category, subjectList] of Object.entries(categorySubjects)) {
-      const activeSubjects = subjectList.filter(s => s.grade);
-      if (activeSubjects.length > 0 && !validateWeights(activeSubjects)) {
-        setError(`Die Gewichtungen in ${category === 'exam' ? 'Klausuren' : 
-                 category === 'assignment' ? 'Hausarbeiten' : 
-                 'Praktische Prüfungen'} müssen 100% ergeben!`);
-        return;
-      }
-    }
-
     const categoryAverages = {
       exam: 0,
       assignment: 0,
       practical: 0
     };
 
-    // Calculate weighted averages for each category
     Object.entries(categorySubjects).forEach(([category, subjectList]) => {
       const activeSubjects = subjectList.filter(s => s.grade);
       
@@ -120,21 +92,16 @@ const GradeCalculator: React.FC = () => {
 
         activeSubjects.forEach(subject => {
           const grade = parseFloat(subject.grade);
-          if (subject.weightType === 'percent') {
-            categorySum += grade * (parseFloat(subject.percentWeight || '0') / 100);
-          } else {
-            const weight = parseFloat(subject.multipleWeight || '1');
-            categorySum += grade * weight;
-            totalWeight += weight;
-          }
+          const weight = parseFloat(subject.multipleWeight || '1');
+          categorySum += grade * weight;
+          totalWeight += weight;
         });
 
         categoryAverages[category as keyof typeof categoryAverages] = 
-          totalWeight > 0 ? categorySum / totalWeight : categorySum;
+          totalWeight > 0 ? categorySum / totalWeight : 0;
       }
     });
 
-    // Calculate final weighted average using STIWL weights
     let finalAverage = 0;
     const categoryResults: GradeResult[] = [];
 
@@ -159,15 +126,12 @@ const GradeCalculator: React.FC = () => {
       return;
     }
 
-    // Add individual grades to results
     const individualResults: GradeResult[] = subjects
       .filter(subject => subject.grade)
       .map(subject => ({
         subjectName: subject.name || 'Unbenanntes Fach',
         grade: parseFloat(subject.grade),
-        weight: subject.weightType === 'percent' ? 
-          `${subject.percentWeight}%` : 
-          `${subject.multipleWeight}-fach`,
+        weight: `${subject.multipleWeight}-fach`,
         category: subject.category
       }));
 
@@ -177,23 +141,11 @@ const GradeCalculator: React.FC = () => {
 
   const renderSection = (title: string, category: 'exam' | 'assignment' | 'practical', weight: number) => {
     const categorySubjects = subjects.filter(s => s.category === category);
-    const percentSubjects = categorySubjects.filter(
-      s => s.grade && s.weightType === 'percent' && s.percentWeight
-    );
-    const totalWeight = percentSubjects.reduce(
-      (sum, s) => sum + parseFloat(s.percentWeight || '0'), 
-      0
-    );
 
     return (
       <div className="mb-8">
         <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-3 border-b pb-2">
           {title} ({weight}%)
-          {totalWeight > 0 && (
-            <span className="text-sm font-normal text-gray-600 dark:text-gray-300 ml-2">
-              Aktuelle Gewichtung: {totalWeight}%
-            </span>
-          )}
         </h3>
         <div className="space-y-3">
           {categorySubjects.map(subject => (

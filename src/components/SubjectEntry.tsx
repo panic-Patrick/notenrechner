@@ -16,17 +16,7 @@ const SubjectEntry: React.FC<SubjectEntryProps> = ({
 }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    
-    if (name === 'weightType') {
-      const updates = {
-        weightType: value,
-        multipleWeight: value === 'multiple' ? '1' : '',
-        percentWeight: value === 'percent' ? '20' : ''
-      };
-      onChange({ ...subject, ...updates });
-    } else {
-      onChange({ ...subject, [name]: value });
-    }
+    onChange({ ...subject, [name]: value });
   };
 
   const inputClasses = "px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-white";
@@ -55,43 +45,16 @@ const SubjectEntry: React.FC<SubjectEntryProps> = ({
       />
 
       <select
-        name="weightType"
-        value={subject.weightType}
+        name="multipleWeight"
+        value={subject.multipleWeight}
         onChange={handleChange}
-        className={`w-32 ${inputClasses}`}
+        className={`w-28 ${inputClasses}`}
       >
-        <option value="multiple">Mehrfach</option>
-        <option value="percent">Prozentual</option>
+        <option value="1">1-fach</option>
+        <option value="2">2-fach</option>
+        <option value="3">3-fach</option>
+        <option value="4">4-fach</option>
       </select>
-
-      {subject.weightType === 'percent' ? (
-        <select
-          name="percentWeight"
-          value={subject.percentWeight}
-          onChange={handleChange}
-          className={`w-28 ${inputClasses}`}
-        >
-          <option value="">Gewichtung</option>
-          <option value="20">20%</option>
-          <option value="25">25%</option>
-          <option value="30">30%</option>
-          <option value="35">35%</option>
-          <option value="40">40%</option>
-          <option value="50">50%</option>
-        </select>
-      ) : (
-        <select
-          name="multipleWeight"
-          value={subject.multipleWeight}
-          onChange={handleChange}
-          className={`w-28 ${inputClasses}`}
-        >
-          <option value="1">1-fach</option>
-          <option value="2">2-fach</option>
-          <option value="3">3-fach</option>
-          <option value="4">4-fach</option>
-        </select>
-      )}
       
       {isRemovable && (
         <button

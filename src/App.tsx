@@ -50,8 +50,7 @@ function App() {
       <main className="max-w-4xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
         <div className="mb-8 flex flex-col items-center text-center">
           <p className="text-gray-700 dark:text-gray-300 mb-4 max-w-2xl">
-            Gib deine Fächer, Noten und Gewichtungen ein, um deinen Durchschnitt zu berechnen. 
-            Du kannst zwischen mehrfacher Gewichtung und prozentualer Gewichtung wählen.
+            Gib deine Fächer, Noten und Gewichtungen ein, um deinen Durchschnitt zu berechnen.
           </p>
           <div className="animate-bounce mt-2">
             <ChevronDown className="h-6 w-6 text-blue-500 dark:text-blue-400" />
@@ -69,5 +68,3 @@ function App() {
     </div>
   );
 }
-
-export default App;
