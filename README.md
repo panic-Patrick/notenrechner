@@ -1,6 +1,6 @@
 # 🎓 Notenrechner
 
-Ein moderner und intuitiver Notenrechner zur schnellen Berechnung von Durchschnittsnoten – ideal für Schüler:innen, Studierende und Lehrkräfte.
+Ein moderner und intuitiver Notenrechner zur schnellen Berechnung von Durchschnittsergebnissen (Noten und Punkten) für den Verwaltungslehrgang II (VL II) – ideal für Schüler:innen und Lehrkräfte.
 
 🔗 **Live-Demo:** [notenrechner.kaempf.nrw](https://notenrechner.kaempf.nrw)
 
@@ -8,9 +8,9 @@ Ein moderner und intuitiver Notenrechner zur schnellen Berechnung von Durchschni
 
 ## 🚀 Funktionen
 
-- ✔️ Berechnung von Durchschnittsnoten
+- ✔️ Berechnung von Durchschnittsergebnissen (Noten und Punkten)
 - ✔️ Unterstützung verschiedener Notensysteme (z. B. 1–6, 0–15 Punkte)
-- ✔️ Gewichtung einzelner Noten
+- ✔️ Gewichtung einzelner Bewertungen
 - ✔️ Klare, responsive Benutzeroberfläche
 - ✔️ Kein Account nötig – direkt im Browser nutzen
 
@@ -35,7 +35,11 @@ git clone https://github.com/panic-Patrick/notenrechner.git
 cd notenrechner
 npm install
 npm run dev
+
 ```
 Dann im Browser öffnen:
 👉 http://localhost:5173
 
+📄 Lizenz
+Dieses Projekt steht unter der MIT-Lizenz.
+Du darfst es frei nutzen, verändern und weitergeben – mit entsprechender Namensnennung.
