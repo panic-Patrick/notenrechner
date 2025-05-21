@@ -30,7 +30,7 @@ function App() {
               Notenrechner
             </h1>
             <p className="mt-1 text-gray-600 dark:text-gray-300 text-sm md:text-base">
-              Berechne deinen gewichteten Notendurchschnitt nach Stiwl vorgaben
+              Berechne deinen gewichteten Notendurchschnitt nach vorgaben des VL2
             </p>
           </div>
           <button
@@ -39,7 +39,7 @@ function App() {
             aria-label="Toggle dark mode"
           >
             {darkMode ? (
-              <Sun className="h-5 w-5 text-yellow-500" />
+              <Sun className="h-5 w-5 text-black-500" />
             ) : (
               <Moon className="h-5 w-5 text-gray-600" />
             )}
