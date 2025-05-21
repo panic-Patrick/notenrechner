@@ -10,7 +10,7 @@ interface ResultDisplayProps {
 const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, average, error }) => {
   if (error) {
     return (
-      <div className="mt-6 p-4 bg-red-100 dark:bg-red-900/50 border-l-4 border-red-500 text-red-700 dark:text-red-200 rounded-lg backdrop-blur-sm animate-fade-in">
+      <div className="mt-6 p-4 bg-red-100 dark:bg-red-900/50 border-l-4 border-red-500 text-red-700 dark:text-red-200 rounded-lg material-shadow animate-fade-in">
         <p className="font-bold">Fehler:</p>
         <p>{error}</p>
       </div>
@@ -30,18 +30,18 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, average, error }
   };
 
   return (
-    <div className="mt-8 bg-white/80 dark:bg-gray-800/80 rounded-xl p-6 shadow-lg animate-fade-in transition-all duration-200 backdrop-blur-sm">
+    <div className="mt-8 material-card animate-fade-in">
       <h2 className="text-xl font-bold mb-6 text-gray-800 dark:text-white border-b border-gray-200 dark:border-gray-700 pb-2">
         Ergebnisse
       </h2>
       
       <div className="mb-6">
         <h3 className="font-semibold mb-4 text-gray-700 dark:text-gray-300">Einzelne Noten:</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {results.map((result, index) => (
             <div 
               key={index} 
-              className="p-3 bg-gray-50 dark:bg-gray-700/50 rounded-lg flex justify-between items-center backdrop-blur-sm hover:scale-[1.02] transition-all duration-200"
+              className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg flex justify-between items-center material-shadow hover:scale-[1.02] transition-all duration-200"
             >
               <span className="font-medium text-gray-900 dark:text-gray-100">
                 {result.subjectName || 'Unbenanntes Fach'}:
@@ -54,14 +54,14 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, average, error }
         </div>
       </div>
       
-      <div className="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700">
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-2">
+      <div className="mt-8 pt-4 border-t border-gray-200 dark:border-gray-700">
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
           <h3 className="text-lg font-bold text-gray-800 dark:text-white">
             Gewichteter Durchschnitt:
           </h3>
-          <span className={`text-3xl font-bold ${getGradeColor(average)} transition-all duration-200`}>
+          <div className={`text-4xl font-bold ${getGradeColor(average)} material-shadow px-6 py-3 rounded-lg bg-white dark:bg-gray-700/50`}>
             {average.toFixed(2)}
-          </span>
+          </div>
         </div>
       </div>
     </div>
