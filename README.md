@@ -19,6 +19,7 @@ Ein moderner und intuitiver Notenrechner zur schnellen Berechnung von Durchschni
 - ✔️ Gewichtung einzelner Bewertungen
 - ✔️ Klare, responsive Benutzeroberfläche
 - ✔️ Kein Account nötig – direkt im Browser nutzen
+- ✔️ Ergebnisse als PDF herunterladen
 
 ---
 
