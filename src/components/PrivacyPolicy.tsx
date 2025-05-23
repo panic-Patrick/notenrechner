@@ -8,12 +8,13 @@ interface PrivacyPolicyProps {
 const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onClose }) => {
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto material-shadow">
+      <div className="bg-white dark:bg-gray-800 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto material-shadow relative">
         <div className="sticky top-0 bg-white dark:bg-gray-800 p-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center">
           <h2 className="text-xl font-bold text-gray-800 dark:text-white">Datenschutzerklärung</h2>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-full"
+            className="material-button bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-600 dark:text-gray-300"
+            aria-label="Schließen"
           >
             <X className="w-5 h-5" />
           </button>
@@ -65,9 +66,21 @@ const PrivacyPolicy: React.FC<PrivacyPolicyProps> = ({ onClose }) => {
           <section>
             <h3 className="text-lg font-semibold mb-3 text-gray-800 dark:text-white">7. Kontakt</h3>
             <p className="text-gray-600 dark:text-gray-300">
-              Bei Fragen zum Datenschutz können Sie sich an den Betreiber der Website wenden.
+              Bei Fragen zum Datenschutz können Sie sich an folgende E-Mail-Adresse wenden:
+              <a href="mailto:info@kaempf.nrw" className="text-primary-500 hover:text-primary-600 dark:text-primary-400 ml-2">
+                info@kaempf.nrw
+              </a>
             </p>
           </section>
+        </div>
+
+        <div className="sticky bottom-0 bg-white dark:bg-gray-800 p-4 border-t border-gray-200 dark:border-gray-700 flex justify-end">
+          <button
+            onClick={onClose}
+            className="material-button bg-primary-500 hover:bg-primary-600"
+          >
+            Schließen
+          </button>
         </div>
       </div>
     </div>
