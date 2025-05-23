@@ -1,5 +1,8 @@
 import React from 'react';
 import { GradeResult } from '../types';
+import { Download } from 'lucide-react';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import ResultsPDF from './ResultsPDF';
 
 interface ResultDisplayProps {
   results: GradeResult[];
@@ -31,9 +34,23 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, average, error }
 
   return (
     <div className="mt-8 material-card animate-fade-in">
-      <h2 className="text-xl font-bold mb-6 text-gray-800 dark:text-white border-b border-gray-200 dark:border-gray-700 pb-2">
-        Ergebnisse
-      </h2>
+      <div className="flex justify-between items-center mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
+        <h2 className="text-xl font-bold text-gray-800 dark:text-white">
+          Ergebnisse
+        </h2>
+        <PDFDownloadLink
+          document={<ResultsPDF results={results} average={average} />}
+          fileName="notenrechner-ergebnisse.pdf"
+          className="material-button bg-primary-500 hover:bg-primary-600 flex items-center gap-2"
+        >
+          {({ loading }) => (
+            <>
+              <Download className="w-4 h-4" />
+              {loading ? 'Generiere PDF...' : 'Als PDF herunterladen'}
+            </>
+          )}
+        </PDFDownloadLink>
+      </div>
       
       <div className="mb-6">
         <h3 className="font-semibold mb-4 text-gray-700 dark:text-gray-300">Einzelne Noten:</h3>
