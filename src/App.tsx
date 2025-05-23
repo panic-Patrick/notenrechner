@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import GradeCalculator from './components/GradeCalculator';
+import PrivacyPolicy from './components/PrivacyPolicy';
 import { ChevronDown, Moon, Sun } from 'lucide-react';
 
 function App() {
@@ -7,6 +8,7 @@ function App() {
     const savedMode = localStorage.getItem('darkMode');
     return savedMode ? JSON.parse(savedMode) : false;
   });
+  const [showPrivacy, setShowPrivacy] = useState(false);
 
   useEffect(() => {
     if (darkMode) {
@@ -61,10 +63,20 @@ function App() {
       </main>
       
       <footer className="py-6 mt-12 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700 transition-colors duration-200">
-        <div className="max-w-4xl mx-auto px-4 text-center text-gray-600 dark:text-gray-400 text-xs md:text-sm">
-          <p>© {new Date().getFullYear()} Notenrechner | Alle Rechte vorbehalten</p>
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm">
+            © {new Date().getFullYear()} Notenrechner | Alle Rechte vorbehalten |{' '}
+            <button
+              onClick={() => setShowPrivacy(true)}
+              className="text-primary-500 hover:text-primary-600 dark:text-primary-400 dark:hover:text-primary-300 underline"
+            >
+              Datenschutzerklärung
+            </button>
+          </p>
         </div>
       </footer>
+
+      {showPrivacy && <PrivacyPolicy onClose={() => setShowPrivacy(false)} />}
     </div>
   );
 }
