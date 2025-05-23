@@ -24,14 +24,6 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, average, error }
     return null;
   }
 
-  const getGradeColor = (grade: number): string => {
-    if (grade <= 1.5) return 'text-green-600 dark:text-green-400';
-    if (grade <= 2.5) return 'text-green-500 dark:text-green-300';
-    if (grade <= 3.5) return 'text-yellow-600 dark:text-yellow-400';
-    if (grade <= 4.5) return 'text-orange-500 dark:text-orange-400';
-    return 'text-red-600 dark:text-red-400';
-  };
-
   return (
     <div className="mt-8 material-card animate-fade-in">
       <div className="flex justify-between items-center mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
@@ -63,7 +55,7 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, average, error }
               <span className="font-medium text-gray-900 dark:text-gray-100">
                 {result.subjectName || 'Unbenanntes Fach'}:
               </span>
-              <span className={`${getGradeColor(result.grade)} font-bold text-lg`}>
+              <span className="font-bold text-lg text-gray-900 dark:text-gray-100">
                 {result.grade.toFixed(1)} <span className="text-sm">({result.weight})</span>
               </span>
             </div>
@@ -76,7 +68,7 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, average, error }
           <h3 className="text-lg font-bold text-gray-800 dark:text-white">
             Gewichteter Durchschnitt:
           </h3>
-          <div className={`text-4xl font-bold ${getGradeColor(average)} material-shadow px-6 py-3 rounded-lg bg-white dark:bg-gray-700/50`}>
+          <div className="text-4xl font-bold text-gray-900 dark:text-gray-100 material-shadow px-6 py-3 rounded-lg bg-white dark:bg-gray-700/50">
             {average.toFixed(2)}
           </div>
         </div>
