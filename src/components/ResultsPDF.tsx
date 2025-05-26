@@ -101,7 +101,7 @@ const ResultsPDF: React.FC<ResultsPDFProps> = ({ results, average, deficitCheck 
         </Text>
         {deficitCheck.deficitCount > 0 && (
           <Text style={styles.deficitMessage}>
-            Anzahl der Defizite: {String(deficitCheck.deficitCount)}
+            Anzahl der Defizite: {deficitCheck.deficitCount.toString()}
           </Text>
         )}
       </View>
@@ -110,17 +110,17 @@ const ResultsPDF: React.FC<ResultsPDFProps> = ({ results, average, deficitCheck 
       {results.map((result, index) => (
         <View key={index} style={[styles.resultRow, result.isDeficit && styles.deficitRow]}>
           <Text style={styles.subject}>
-            {result.subjectName ? String(result.subjectName) : 'Unbenanntes Fach'}
+            {result.subjectName ? result.subjectName.toString() : 'Unbenanntes Fach'}
           </Text>
           <Text style={styles.grade}>
-            {String(result.grade.toFixed(1))} ({String(result.weight)})
+            {result.grade.toFixed(1).toString()} ({result.weight.toString()})
           </Text>
         </View>
       ))}
       
       <View style={styles.averageContainer}>
         <Text style={styles.averageLabel}>Gewichteter Durchschnitt:</Text>
-        <Text style={styles.averageValue}>{String(average.toFixed(2))}</Text>
+        <Text style={styles.averageValue}>{average.toFixed(2).toString()}</Text>
       </View>
       
       <Text style={styles.footer}>
