@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import SubjectEntry from './SubjectEntry';
 import ResultDisplay from './ResultDisplay';
 import { Subject, GradeResult, STIWL_WEIGHTS, GradeType } from '../types';
-import { Toggle } from 'lucide-react';
+import { ToggleLeft as Toggle } from 'lucide-react';
 
 const GradeCalculator: React.FC = () => {
   const [subjects, setSubjects] = useState<Subject[]>([]);
