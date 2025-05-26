@@ -3,6 +3,7 @@ import { GradeResult, GradeType } from '../types';
 import { Download } from 'lucide-react';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import ResultsPDF from './ResultsPDF';
+import { pointsToGrade, gradeToPoints } from '../utils/gradeUtils';
 
 interface ResultDisplayProps {
   results: GradeResult[];
@@ -25,12 +26,24 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, average, error, 
     return null;
   }
 
-  const displayGrade = (grade: number): string => {
+  const displayValue = (value: number): string => {
     if (gradeType === 'points') {
-      const points = Math.round((17 - grade * 3) * 10) / 10;
-      return points.toFixed(1);
+      return gradeToPoints(value).toFixed(1);
     }
-    return grade.toFixed(1);
+    return value.toFixed(1);
+  };
+
+  const getGradeText = (grade: number): string => {
+    const gradeValue = gradeType === 'points' ? pointsToGrade(parseFloat(displayValue(grade))) : grade;
+    switch (Math.round(gradeValue)) {
+      case 1: return 'sehr gut';
+      case 2: return 'gut';
+      case 3: return 'befriedigend';
+      case 4: return 'ausreichend';
+      case 5: return 'mangelhaft';
+      case 6: return 'ungenügend';
+      default: return '';
+    }
   };
 
   return (
@@ -64,9 +77,14 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, average, error, 
               <span className="font-medium text-gray-900 dark:text-gray-100">
                 {result.subjectName || 'Unbenanntes Fach'}:
               </span>
-              <span className="font-bold text-lg text-gray-900 dark:text-gray-100">
-                {displayGrade(result.grade)} <span className="text-sm">({result.weight})</span>
-              </span>
+              <div className="text-right">
+                <span className="font-bold text-lg text-gray-900 dark:text-gray-100">
+                  {displayValue(result.grade)} <span className="text-sm">({result.weight})</span>
+                </span>
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  {getGradeText(result.grade)}
+                </div>
+              </div>
             </div>
           ))}
         </div>
@@ -77,11 +95,13 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, average, error, 
           <h3 className="text-lg font-bold text-gray-800 dark:text-white">
             Gewichteter Durchschnitt:
           </h3>
-          <div className="text-4xl font-bold text-gray-900 dark:text-gray-100 material-shadow px-6 py-3 rounded-lg bg-white dark:bg-gray-700/50">
-            {gradeType === 'points' ? 
-              ((17 - average * 3).toFixed(2)) : 
-              average.toFixed(2)
-            }
+          <div className="text-center">
+            <div className="text-4xl font-bold text-gray-900 dark:text-gray-100 material-shadow px-6 py-3 rounded-lg bg-white dark:bg-gray-700/50">
+              {displayValue(average)}
+            </div>
+            <div className="mt-2 text-gray-600 dark:text-gray-400">
+              {getGradeText(average)}
+            </div>
           </div>
         </div>
       </div>

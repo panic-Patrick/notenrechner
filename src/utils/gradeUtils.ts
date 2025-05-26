@@ -21,6 +21,33 @@ export const getGradeColorClass = (grade: number): string => {
 };
 
 /**
+ * Converts points to grade
+ */
+export const pointsToGrade = (points: number): number => {
+  if (points >= 13) return 1;
+  if (points >= 10) return 2;
+  if (points >= 7) return 3;
+  if (points >= 5) return 4;
+  if (points >= 1) return 5;
+  return 6;
+};
+
+/**
+ * Converts grade to points (returns middle value of range)
+ */
+export const gradeToPoints = (grade: number): number => {
+  switch (Math.round(grade)) {
+    case 1: return 14; // middle of 13-15
+    case 2: return 11; // middle of 10-12
+    case 3: return 8;  // middle of 7-9
+    case 4: return 5.5; // middle of 5-6
+    case 5: return 2.5; // middle of 1-4
+    case 6: return 0;
+    default: return 0;
+  }
+};
+
+/**
  * Validates subjects for calculation
  */
 export const validateSubjects = (subjects: Subject[]): string | null => {

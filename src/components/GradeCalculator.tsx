@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import SubjectEntry from './SubjectEntry';
 import ResultDisplay from './ResultDisplay';
 import { Subject, GradeResult, STIWL_WEIGHTS, GradeType } from '../types';
-import { ToggleLeft as Toggle } from 'lucide-react';
+import { pointsToGrade, gradeToPoints } from '../utils/gradeUtils';
 
 const GradeCalculator: React.FC = () => {
   const [subjects, setSubjects] = useState<Subject[]>([]);
@@ -93,13 +93,12 @@ const GradeCalculator: React.FC = () => {
         let totalWeight = 0;
 
         activeSubjects.forEach(subject => {
-          let grade = parseFloat(subject.grade);
-          // Convert points to grades if necessary
+          let value = parseFloat(subject.grade);
           if (gradeType === 'points') {
-            grade = (17 - grade) / 3;
+            value = pointsToGrade(value);
           }
           const weight = parseFloat(subject.multipleWeight || '1');
-          categorySum += grade * weight;
+          categorySum += value * weight;
           totalWeight += weight;
         });
 
@@ -136,7 +135,7 @@ const GradeCalculator: React.FC = () => {
       .filter(subject => subject.grade)
       .map(subject => ({
         subjectName: subject.name || 'Unbenanntes Fach',
-        grade: gradeType === 'points' ? (17 - parseFloat(subject.grade)) / 3 : parseFloat(subject.grade),
+        grade: gradeType === 'points' ? pointsToGrade(parseFloat(subject.grade)) : parseFloat(subject.grade),
         weight: `${subject.multipleWeight}-fach`,
         category: subject.category
       }));
