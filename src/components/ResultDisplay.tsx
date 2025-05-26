@@ -1,5 +1,5 @@
 import React from 'react';
-import { GradeResult } from '../types';
+import { GradeResult, GradeType } from '../types';
 import { Download } from 'lucide-react';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import ResultsPDF from './ResultsPDF';
@@ -8,9 +8,10 @@ interface ResultDisplayProps {
   results: GradeResult[];
   average: number | null;
   error: string | null;
+  gradeType: GradeType;
 }
 
-const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, average, error }) => {
+const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, average, error, gradeType }) => {
   if (error) {
     return (
       <div className="mt-6 p-4 bg-red-100 dark:bg-red-900/50 border-l-4 border-red-500 text-red-700 dark:text-red-200 rounded-lg material-shadow animate-fade-in">
@@ -23,6 +24,14 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, average, error }
   if (results.length === 0 || average === null) {
     return null;
   }
+
+  const displayGrade = (grade: number): string => {
+    if (gradeType === 'points') {
+      const points = Math.round((17 - grade * 3) * 10) / 10;
+      return points.toFixed(1);
+    }
+    return grade.toFixed(1);
+  };
 
   return (
     <div className="mt-8 material-card animate-fade-in">
@@ -45,7 +54,7 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, average, error }
       </div>
       
       <div className="mb-6">
-        <h3 className="font-semibold mb-4 text-gray-700 dark:text-gray-300">Einzelne Noten:</h3>
+        <h3 className="font-semibold mb-4 text-gray-700 dark:text-gray-300">Einzelne Bewertungen:</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {results.map((result, index) => (
             <div 
@@ -56,7 +65,7 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, average, error }
                 {result.subjectName || 'Unbenanntes Fach'}:
               </span>
               <span className="font-bold text-lg text-gray-900 dark:text-gray-100">
-                {result.grade.toFixed(1)} <span className="text-sm">({result.weight})</span>
+                {displayGrade(result.grade)} <span className="text-sm">({result.weight})</span>
               </span>
             </div>
           ))}
@@ -69,7 +78,10 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, average, error }
             Gewichteter Durchschnitt:
           </h3>
           <div className="text-4xl font-bold text-gray-900 dark:text-gray-100 material-shadow px-6 py-3 rounded-lg bg-white dark:bg-gray-700/50">
-            {average.toFixed(2)}
+            {gradeType === 'points' ? 
+              ((17 - average * 3).toFixed(2)) : 
+              average.toFixed(2)
+            }
           </div>
         </div>
       </div>

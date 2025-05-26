@@ -1,18 +1,20 @@
 import React from 'react';
-import { Subject } from '../types';
+import { Subject, GradeType } from '../types';
 
 interface SubjectEntryProps {
   subject: Subject;
   onChange: (updatedSubject: Subject) => void;
   onRemove: () => void;
   isRemovable: boolean;
+  gradeType: GradeType;
 }
 
 const SubjectEntry: React.FC<SubjectEntryProps> = ({ 
   subject, 
   onChange, 
   onRemove,
-  isRemovable
+  isRemovable,
+  gradeType
 }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -38,9 +40,9 @@ const SubjectEntry: React.FC<SubjectEntryProps> = ({
           name="grade"
           value={subject.grade}
           onChange={handleChange}
-          placeholder="Punkte/Note"
-          min="1"
-          max="6"
+          placeholder={gradeType === 'points' ? 'Punkte (0-15)' : 'Note (1-6)'}
+          min={gradeType === 'points' ? "0" : "1"}
+          max={gradeType === 'points' ? "15" : "6"}
           step="0.1"
           className="material-input"
         />

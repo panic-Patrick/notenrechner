@@ -20,3 +20,5 @@ export const STIWL_WEIGHTS = {
   assignment: 15,
   practical: 20
 } as const;
+
+export type GradeType = 'points' | 'grades';
