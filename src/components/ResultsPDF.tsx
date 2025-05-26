@@ -96,7 +96,9 @@ const ResultsPDF: React.FC<ResultsPDFProps> = ({ results, average, deficitCheck 
       <Text style={styles.title}>Notenrechner Ergebnisse</Text>
 
       <View style={[styles.deficitContainer, { status: deficitCheck.status }]}>
-        <Text style={styles.deficitMessage}>{String(deficitCheck.message || '')}</Text>
+        <Text style={styles.deficitMessage}>
+          {deficitCheck.message ? String(deficitCheck.message) : ''}
+        </Text>
         {deficitCheck.deficitCount > 0 && (
           <Text style={styles.deficitMessage}>
             Anzahl der Defizite: {String(deficitCheck.deficitCount)}
@@ -107,7 +109,9 @@ const ResultsPDF: React.FC<ResultsPDFProps> = ({ results, average, deficitCheck 
       <Text style={styles.subtitle}>Einzelne Noten:</Text>
       {results.map((result, index) => (
         <View key={index} style={[styles.resultRow, result.isDeficit && styles.deficitRow]}>
-          <Text style={styles.subject}>{String(result.subjectName || 'Unbenanntes Fach')}</Text>
+          <Text style={styles.subject}>
+            {result.subjectName ? String(result.subjectName) : 'Unbenanntes Fach'}
+          </Text>
           <Text style={styles.grade}>
             {String(result.grade.toFixed(1))} ({String(result.weight)})
           </Text>
@@ -120,7 +124,7 @@ const ResultsPDF: React.FC<ResultsPDFProps> = ({ results, average, deficitCheck 
       </View>
       
       <Text style={styles.footer}>
-        Generiert am {String(new Date().toLocaleDateString('de-DE'))} mit Notenrechner
+        Generiert am {new Date().toLocaleDateString('de-DE')} mit Notenrechner
       </Text>
     </Page>
   </Document>
