@@ -6,6 +6,7 @@ export interface Subject {
   multipleWeight: string;
   percentWeight: string;
   category?: 'exam' | 'assignment' | 'practical';
+  gradeType: 'points' | 'grades';
 }
 
 export interface GradeResult {
@@ -13,6 +14,7 @@ export interface GradeResult {
   grade: number;
   weight: string;
   category?: string;
+  isDeficit?: boolean;
 }
 
 export const STIWL_WEIGHTS = {
@@ -20,3 +22,10 @@ export const STIWL_WEIGHTS = {
   assignment: 15,
   practical: 20
 } as const;
+
+export interface DeficitCheck {
+  hasDeficits: boolean;
+  deficitCount: number;
+  message: string;
+  status: 'success' | 'warning' | 'error';
+}
