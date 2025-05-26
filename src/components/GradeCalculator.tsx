@@ -3,14 +3,12 @@ import { v4 as uuidv4 } from 'uuid';
 import SubjectEntry from './SubjectEntry';
 import ResultDisplay from './ResultDisplay';
 import { Subject, GradeResult, STIWL_WEIGHTS } from '../types';
-import { checkDeficits } from '../utils/gradeUtils';
 
 const GradeCalculator: React.FC = () => {
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [results, setResults] = useState<GradeResult[]>([]);
   const [average, setAverage] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [gradeType, setGradeType] = useState<'points' | 'grades'>('points');
 
   useEffect(() => {
     const initialSubjects = [
@@ -21,8 +19,7 @@ const GradeCalculator: React.FC = () => {
         weightType: 'multiple' as const,
         multipleWeight: '1',
         percentWeight: '',
-        category: 'exam' as const,
-        gradeType
+        category: 'exam' as const
       })),
       ...Array(2).fill(null).map(() => ({
         id: uuidv4(),
@@ -31,8 +28,7 @@ const GradeCalculator: React.FC = () => {
         weightType: 'multiple' as const,
         multipleWeight: '1',
         percentWeight: '',
-        category: 'assignment' as const,
-        gradeType
+        category: 'assignment' as const
       })),
       ...Array(2).fill(null).map(() => ({
         id: uuidv4(),
@@ -41,16 +37,15 @@ const GradeCalculator: React.FC = () => {
         weightType: 'multiple' as const,
         multipleWeight: '1',
         percentWeight: '',
-        category: 'practical' as const,
-        gradeType
+        category: 'practical' as const
       }))
     ];
     setSubjects(initialSubjects);
-  }, [gradeType]);
+  }, []);
 
   const handleSubjectChange = (updatedSubject: Subject) => {
     setSubjects(subjects.map(subject => 
-      subject.id === updatedSubject.id ? { ...updatedSubject, gradeType } : subject
+      subject.id === updatedSubject.id ? updatedSubject : subject
     ));
   };
 
@@ -62,8 +57,7 @@ const GradeCalculator: React.FC = () => {
       weightType: 'multiple',
       multipleWeight: '1',
       percentWeight: '',
-      category,
-      gradeType
+      category
     };
     setSubjects([...subjects, newSubject]);
   };
@@ -109,7 +103,6 @@ const GradeCalculator: React.FC = () => {
     });
 
     let finalAverage = 0;
-    const deficitCheck = checkDeficits(subjects);
     const categoryResults: GradeResult[] = [];
 
     Object.entries(categoryAverages).forEach(([category, average]) => {
@@ -139,10 +132,7 @@ const GradeCalculator: React.FC = () => {
         subjectName: subject.name || 'Unbenanntes Fach',
         grade: parseFloat(subject.grade),
         weight: `${subject.multipleWeight}-fach`,
-        category: subject.category,
-        isDeficit: subject.gradeType === 'points' 
-          ? parseFloat(subject.grade) <= 4 
-          : parseFloat(subject.grade) >= 5
+        category: subject.category
       }));
 
     setResults([...individualResults, ...categoryResults]);
@@ -166,7 +156,6 @@ const GradeCalculator: React.FC = () => {
               onChange={handleSubjectChange}
               onRemove={() => removeSubject(subject.id)}
               isRemovable={categorySubjects.length > 1}
-              gradeType={gradeType}
             />
           ))}
         </div>
@@ -183,20 +172,7 @@ const GradeCalculator: React.FC = () => {
   return (
     <div className="w-full max-w-4xl mx-auto">
       <div className="material-card mb-8">
-        <div className="flex justify-between items-center mb-8">
-          <h2 className="text-xl font-bold text-gray-800 dark:text-white">Noteneingabe</h2>
-          <div className="flex items-center space-x-4">
-            <label className="text-gray-700 dark:text-gray-300">Bewertungssystem:</label>
-            <select
-              value={gradeType}
-              onChange={(e) => setGradeType(e.target.value as 'points' | 'grades')}
-              className="material-input"
-            >
-              <option value="points">Punkte (0-15)</option>
-              <option value="grades">Noten (1-6)</option>
-            </select>
-          </div>
-        </div>
+        <h2 className="text-xl font-bold mb-8 text-gray-800 dark:text-white">Noteneingabe</h2>
         
         {renderSection('Klausuren', 'exam', STIWL_WEIGHTS.exam)}
         {renderSection('Hausarbeiten', 'assignment', STIWL_WEIGHTS.assignment)}
@@ -215,8 +191,7 @@ const GradeCalculator: React.FC = () => {
       <ResultDisplay 
         results={results} 
         average={average} 
-        error={error}
-        gradeType={gradeType}
+        error={error} 
       />
     </div>
   );

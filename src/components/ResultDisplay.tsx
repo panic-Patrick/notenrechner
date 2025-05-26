@@ -3,16 +3,14 @@ import { GradeResult } from '../types';
 import { Download } from 'lucide-react';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import ResultsPDF from './ResultsPDF';
-import { checkDeficits } from '../utils/gradeUtils';
 
 interface ResultDisplayProps {
   results: GradeResult[];
   average: number | null;
   error: string | null;
-  gradeType: 'points' | 'grades';
 }
 
-const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, average, error, gradeType }) => {
+const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, average, error }) => {
   if (error) {
     return (
       <div className="mt-6 p-4 bg-red-100 dark:bg-red-900/50 border-l-4 border-red-500 text-red-700 dark:text-red-200 rounded-lg material-shadow animate-fade-in">
@@ -26,22 +24,6 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, average, error, 
     return null;
   }
 
-  const deficitCheck = checkDeficits(results.map(r => ({
-    id: '',
-    name: r.subjectName,
-    grade: r.grade.toString(),
-    weightType: 'multiple',
-    multipleWeight: '1',
-    percentWeight: '',
-    gradeType
-  })));
-
-  const statusColors = {
-    success: 'bg-green-100 dark:bg-green-900/50 border-green-500 text-green-700 dark:text-green-200',
-    warning: 'bg-yellow-100 dark:bg-yellow-900/50 border-yellow-500 text-yellow-700 dark:text-yellow-200',
-    error: 'bg-red-100 dark:bg-red-900/50 border-red-500 text-red-700 dark:text-red-200'
-  };
-
   return (
     <div className="mt-8 material-card animate-fade-in">
       <div className="flex justify-between items-center mb-6 border-b border-gray-200 dark:border-gray-700 pb-2">
@@ -49,7 +31,7 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, average, error, 
           Ergebnisse
         </h2>
         <PDFDownloadLink
-          document={<ResultsPDF results={results} average={average} deficitCheck={deficitCheck} />}
+          document={<ResultsPDF results={results} average={average} />}
           fileName="notenrechner-ergebnisse.pdf"
           className="material-button bg-primary-500 hover:bg-primary-600 flex items-center gap-2"
         >
@@ -61,15 +43,6 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, average, error, 
           )}
         </PDFDownloadLink>
       </div>
-
-      <div className={`p-4 rounded-lg border-l-4 mb-6 ${statusColors[deficitCheck.status]}`}>
-        <p className="font-bold">{deficitCheck.message}</p>
-        {deficitCheck.deficitCount > 0 && (
-          <p className="mt-2 text-sm">
-            Anzahl der Defizite: {deficitCheck.deficitCount}
-          </p>
-        )}
-      </div>
       
       <div className="mb-6">
         <h3 className="font-semibold mb-4 text-gray-700 dark:text-gray-300">Einzelne Noten:</h3>
@@ -77,9 +50,7 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, average, error, 
           {results.map((result, index) => (
             <div 
               key={index} 
-              className={`p-4 rounded-lg flex justify-between items-center material-shadow hover:scale-[1.02] transition-all duration-200 ${
-                result.isDeficit ? 'bg-red-50 dark:bg-red-900/30' : 'bg-gray-50 dark:bg-gray-700/50'
-              }`}
+              className="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg flex justify-between items-center material-shadow hover:scale-[1.02] transition-all duration-200"
             >
               <span className="font-medium text-gray-900 dark:text-gray-100">
                 {result.subjectName || 'Unbenanntes Fach'}:

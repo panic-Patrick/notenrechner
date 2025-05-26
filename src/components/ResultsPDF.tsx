@@ -1,11 +1,10 @@
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
-import { GradeResult, DeficitCheck } from '../types';
+import { GradeResult } from '../types';
 
 interface ResultsPDFProps {
   results: GradeResult[];
   average: number;
-  deficitCheck: DeficitCheck;
 }
 
 const styles = StyleSheet.create({
@@ -33,9 +32,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
     borderRadius: 4,
   },
-  deficitRow: {
-    backgroundColor: '#fee2e2',
-  },
   subject: {
     fontSize: 12,
     color: '#333',
@@ -49,24 +45,6 @@ const styles = StyleSheet.create({
     padding: 15,
     backgroundColor: '#e3f2fd',
     borderRadius: 4,
-  },
-  deficitContainer: {
-    marginTop: 20,
-    padding: 15,
-    borderRadius: 4,
-    backgroundColor: props => {
-      switch (props.status) {
-        case 'success': return '#f0fdf4';
-        case 'warning': return '#fefce8';
-        case 'error': return '#fef2f2';
-        default: return '#f0fdf4';
-      }
-    },
-  },
-  deficitMessage: {
-    fontSize: 14,
-    color: '#333',
-    marginBottom: 5,
   },
   averageLabel: {
     fontSize: 16,
@@ -90,37 +68,24 @@ const styles = StyleSheet.create({
   },
 });
 
-const ResultsPDF: React.FC<ResultsPDFProps> = ({ results, average, deficitCheck }) => (
+const ResultsPDF: React.FC<ResultsPDFProps> = ({ results, average }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <Text style={styles.title}>Notenrechner Ergebnisse</Text>
-
-      <View style={[styles.deficitContainer, { status: deficitCheck.status }]}>
-        <Text style={styles.deficitMessage}>
-          {deficitCheck.message ? String(deficitCheck.message) : ''}
-        </Text>
-        {deficitCheck.deficitCount > 0 && (
-          <Text style={styles.deficitMessage}>
-            Anzahl der Defizite: {deficitCheck.deficitCount.toString()}
-          </Text>
-        )}
-      </View>
       
       <Text style={styles.subtitle}>Einzelne Noten:</Text>
       {results.map((result, index) => (
-        <View key={index} style={[styles.resultRow, result.isDeficit && styles.deficitRow]}>
-          <Text style={styles.subject}>
-            {result.subjectName ? result.subjectName.toString() : 'Unbenanntes Fach'}
-          </Text>
+        <View key={index} style={styles.resultRow}>
+          <Text style={styles.subject}>{result.subjectName || 'Unbenanntes Fach'}</Text>
           <Text style={styles.grade}>
-            {result.grade.toFixed(1).toString()} ({result.weight.toString()})
+            {result.grade.toFixed(1)} ({result.weight})
           </Text>
         </View>
       ))}
       
       <View style={styles.averageContainer}>
         <Text style={styles.averageLabel}>Gewichteter Durchschnitt:</Text>
-        <Text style={styles.averageValue}>{average.toFixed(2).toString()}</Text>
+        <Text style={styles.averageValue}>{average.toFixed(2)}</Text>
       </View>
       
       <Text style={styles.footer}>

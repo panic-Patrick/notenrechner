@@ -6,25 +6,17 @@ interface SubjectEntryProps {
   onChange: (updatedSubject: Subject) => void;
   onRemove: () => void;
   isRemovable: boolean;
-  gradeType: 'points' | 'grades';
 }
 
 const SubjectEntry: React.FC<SubjectEntryProps> = ({ 
   subject, 
   onChange, 
   onRemove,
-  isRemovable,
-  gradeType
+  isRemovable
 }) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     onChange({ ...subject, [name]: value });
-  };
-
-  const getGradeValidation = () => {
-    return gradeType === 'points' 
-      ? { min: 0, max: 15, step: 1 }
-      : { min: 1, max: 6, step: 0.1 };
   };
 
   return (
@@ -46,8 +38,10 @@ const SubjectEntry: React.FC<SubjectEntryProps> = ({
           name="grade"
           value={subject.grade}
           onChange={handleChange}
-          placeholder={gradeType === 'points' ? 'Punkte (0-15)' : 'Note (1-6)'}
-          {...getGradeValidation()}
+          placeholder="Punkte/Note"
+          min="1"
+          max="6"
+          step="0.1"
           className="material-input"
         />
       </div>
