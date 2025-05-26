@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
 const ResultsPDF: React.FC<ResultsPDFProps> = ({ results, average }) => (
   <Document>
     <Page size="A4" style={styles.page}>
-      <Text style={styles.title}>Notenrechner Ergebnisse</Text>
+      <Text style={styles.title}>Notenrechner VL2 Ergebnisse</Text>
       
       <Text style={styles.subtitle}>Einzelne Noten:</Text>
       {results.map((result, index) => (
