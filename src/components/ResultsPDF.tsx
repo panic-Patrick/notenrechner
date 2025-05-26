@@ -74,6 +74,7 @@ const ResultsPDF: React.FC<ResultsPDFProps> = ({ results, average }) => (
       <Text style={styles.title}>Notenrechner VL2 Ergebnisse</Text>
       
       <Text style={styles.subtitle}>Einzelne Noten:</Text>
+      <Text style={styles.subtitle}>Bitte beachten das hier die Punkte in Noten umgewandelt wurden!</Text>
       {results.map((result, index) => (
         <View key={index} style={styles.resultRow}>
           <Text style={styles.subject}>{result.subjectName || 'Unbenanntes Fach'}</Text>
