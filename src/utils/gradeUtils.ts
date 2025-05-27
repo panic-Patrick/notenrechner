@@ -33,15 +33,21 @@ export const pointsToGrade = (points: number): number => {
 };
 
 /**
- * Converts grade to points (returns middle value of range)
+ * Converts grade to points
  */
 export const gradeToPoints = (grade: number): number => {
+  // Return the input value if it's already in points (0-15)
+  if (grade >= 0 && grade <= 15) {
+    return grade;
+  }
+  
+  // Convert grades to points
   switch (Math.round(grade)) {
-    case 1: return 14; // middle of 13-15
-    case 2: return 11; // middle of 10-12
-    case 3: return 8;  // middle of 7-9
-    case 4: return 5.5; // middle of 5-6
-    case 5: return 2.5; // middle of 1-4
+    case 1: return 15;
+    case 2: return 12;
+    case 3: return 9;
+    case 4: return 6;
+    case 5: return 3;
     case 6: return 0;
     default: return 0;
   }
