@@ -27,14 +27,11 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, average, error, 
   }
 
   const displayValue = (value: number): string => {
-    if (gradeType === 'points') {
-      return gradeToPoints(value).toFixed(1);
-    }
     return value.toFixed(1);
   };
 
   const getGradeText = (grade: number): string => {
-    const gradeValue = gradeType === 'points' ? pointsToGrade(parseFloat(displayValue(grade))) : grade;
+    const gradeValue = gradeType === 'points' ? pointsToGrade(grade) : grade;
     switch (Math.round(gradeValue)) {
       case 1: return 'sehr gut';
       case 2: return 'gut';
