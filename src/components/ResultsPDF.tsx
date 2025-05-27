@@ -1,12 +1,10 @@
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
-import { GradeResult, GradeType } from '../types';
-import { pointsToGrade, gradeToPoints } from '../utils/gradeUtils';
+import { GradeResult } from '../types';
 
 interface ResultsPDFProps {
   results: GradeResult[];
   average: number;
-  gradeType: GradeType;
 }
 
 const styles = StyleSheet.create({
@@ -70,40 +68,32 @@ const styles = StyleSheet.create({
   },
 });
 
-const ResultsPDF: React.FC<ResultsPDFProps> = ({ results, average, gradeType }) => {
-  const displayValue = (value: number): string => {
-    if (gradeType === 'points') {
-      return gradeToPoints(value).toFixed(1);
-    }
-    return value.toFixed(1);
-  };
-
-  return (
-    <Document>
-      <Page size="A4" style={styles.page}>
-        <Text style={styles.title}>Notenrechner VL2 Ergebnisse</Text>
-        
-        <Text style={styles.subtitle}>Einzelne {gradeType === 'points' ? 'Punkte' : 'Noten'}:</Text>
-        {results.map((result, index) => (
-          <View key={index} style={styles.resultRow}>
-            <Text style={styles.subject}>{result.subjectName || 'Unbenanntes Fach'}</Text>
-            <Text style={styles.grade}>
-              {displayValue(result.grade)} ({result.weight})
-            </Text>
-          </View>
-        ))}
-        
-        <View style={styles.averageContainer}>
-          <Text style={styles.averageLabel}>Gewichteter Durchschnitt:</Text>
-          <Text style={styles.averageValue}>{displayValue(average)}</Text>
+const ResultsPDF: React.FC<ResultsPDFProps> = ({ results, average }) => (
+  <Document>
+    <Page size="A4" style={styles.page}>
+      <Text style={styles.title}>Notenrechner VL2 Ergebnisse</Text>
+      
+      <Text style={styles.subtitle}>Einzelne Noten:</Text>
+      <Text style={styles.subtitle}>Bitte beachten das hier die Punkte in Noten umgewandelt wurden!</Text>
+      {results.map((result, index) => (
+        <View key={index} style={styles.resultRow}>
+          <Text style={styles.subject}>{result.subjectName || 'Unbenanntes Fach'}</Text>
+          <Text style={styles.grade}>
+            {result.grade.toFixed(1)} ({result.weight})
+          </Text>
         </View>
-        
-        <Text style={styles.footer}>
-          Generiert am {new Date().toLocaleDateString('de-DE')} mit Notenrechner
-        </Text>
-      </Page>
-    </Document>
-  );
-}
+      ))}
+      
+      <View style={styles.averageContainer}>
+        <Text style={styles.averageLabel}>Gewichteter Durchschnitt:</Text>
+        <Text style={styles.averageValue}>{average.toFixed(2)}</Text>
+      </View>
+      
+      <Text style={styles.footer}>
+        Generiert am {new Date().toLocaleDateString('de-DE')} mit Notenrechner
+      </Text>
+    </Page>
+  </Document>
+);
 
-export default ResultsPDF
+export default ResultsPDF;
