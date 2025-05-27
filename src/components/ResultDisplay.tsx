@@ -3,7 +3,6 @@ import { GradeResult, GradeType } from '../types';
 import { Download } from 'lucide-react';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import ResultsPDF from './ResultsPDF';
-import { pointsToGrade, gradeToPoints } from '../utils/gradeUtils';
 
 interface ResultDisplayProps {
   results: GradeResult[];
@@ -12,7 +11,7 @@ interface ResultDisplayProps {
   gradeType: GradeType;
 }
 
-const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, average, error, gradeType }) => {
+const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, average, error }) => {
   if (error) {
     return (
       <div className="mt-6 p-4 bg-red-100 dark:bg-red-900/50 border-l-4 border-red-500 text-red-700 dark:text-red-200 rounded-lg material-shadow animate-fade-in">
@@ -28,19 +27,6 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, average, error, 
 
   const displayValue = (value: number): string => {
     return value.toFixed(1);
-  };
-
-  const getGradeText = (grade: number): string => {
-    const gradeValue = gradeType === 'points' ? pointsToGrade(grade) : grade;
-    switch (Math.round(gradeValue)) {
-      case 1: return 'sehr gut';
-      case 2: return 'gut';
-      case 3: return 'befriedigend';
-      case 4: return 'ausreichend';
-      case 5: return 'mangelhaft';
-      case 6: return 'ungenügend';
-      default: return '';
-    }
   };
 
   return (
@@ -78,9 +64,6 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, average, error, 
                 <span className="font-bold text-lg text-gray-900 dark:text-gray-100">
                   {displayValue(result.grade)} <span className="text-sm">({result.weight})</span>
                 </span>
-                <div className="text-sm text-gray-600 dark:text-gray-400">
-                  {getGradeText(result.grade)}
-                </div>
               </div>
             </div>
           ))}
@@ -95,9 +78,6 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, average, error, 
           <div className="text-center">
             <div className="text-4xl font-bold text-gray-900 dark:text-gray-100 material-shadow px-6 py-3 rounded-lg bg-white dark:bg-gray-700/50">
               {displayValue(average)}
-            </div>
-            <div className="mt-2 text-gray-600 dark:text-gray-400">
-              {getGradeText(average)}
             </div>
           </div>
         </div>

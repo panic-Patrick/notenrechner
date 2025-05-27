@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: '#333',
   },
-  grade: {
+  points: {
     fontSize: 12,
     fontWeight: 'bold',
   },
@@ -71,14 +71,13 @@ const styles = StyleSheet.create({
 const ResultsPDF: React.FC<ResultsPDFProps> = ({ results, average }) => (
   <Document>
     <Page size="A4" style={styles.page}>
-      <Text style={styles.title}>Notenrechner VL2 Ergebnisse</Text>
+      <Text style={styles.title}>Punkterechner VL2 Ergebnisse</Text>
       
-      <Text style={styles.subtitle}>Einzelne Noten:</Text>
-      <Text style={styles.subtitle}>Bitte beachten das hier die Punkte in Noten umgewandelt wurden!</Text>
+      <Text style={styles.subtitle}>Einzelne Punkte:</Text>
       {results.map((result, index) => (
         <View key={index} style={styles.resultRow}>
           <Text style={styles.subject}>{result.subjectName || 'Unbenanntes Fach'}</Text>
-          <Text style={styles.grade}>
+          <Text style={styles.points}>
             {result.grade.toFixed(1)} ({result.weight})
           </Text>
         </View>
@@ -90,7 +89,7 @@ const ResultsPDF: React.FC<ResultsPDFProps> = ({ results, average }) => (
       </View>
       
       <Text style={styles.footer}>
-        Generiert am {new Date().toLocaleDateString('de-DE')} mit Notenrechner
+        Generiert am {new Date().toLocaleDateString('de-DE')} mit Punkterechner
       </Text>
     </Page>
   </Document>

@@ -3,14 +3,13 @@ import { v4 as uuidv4 } from 'uuid';
 import SubjectEntry from './SubjectEntry';
 import ResultDisplay from './ResultDisplay';
 import { Subject, GradeResult, STIWL_WEIGHTS, GradeType } from '../types';
-import { pointsToGrade, gradeToPoints } from '../utils/gradeUtils';
 
 const GradeCalculator: React.FC = () => {
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [results, setResults] = useState<GradeResult[]>([]);
   const [average, setAverage] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [gradeType, setGradeType] = useState<GradeType>('points');
+  const [gradeType] = useState<GradeType>('points');
 
   useEffect(() => {
     const initialSubjects = [
@@ -93,10 +92,7 @@ const GradeCalculator: React.FC = () => {
         let totalWeight = 0;
 
         activeSubjects.forEach(subject => {
-          let value = parseFloat(subject.grade);
-          if (gradeType === 'points') {
-            value = pointsToGrade(value);
-          }
+          const value = parseFloat(subject.grade);
           const weight = parseFloat(subject.multipleWeight || '1');
           categorySum += value * weight;
           totalWeight += weight;
@@ -135,7 +131,7 @@ const GradeCalculator: React.FC = () => {
       .filter(subject => subject.grade)
       .map(subject => ({
         subjectName: subject.name || 'Unbenanntes Fach',
-        grade: gradeType === 'points' ? pointsToGrade(parseFloat(subject.grade)) : parseFloat(subject.grade),
+        grade: parseFloat(subject.grade),
         weight: `${subject.multipleWeight}-fach`,
         category: subject.category
       }));
@@ -179,26 +175,7 @@ const GradeCalculator: React.FC = () => {
     <div className="w-full max-w-4xl mx-auto">
       <div className="material-card mb-8">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-xl font-bold text-gray-800 dark:text-white">Noteneingabe</h2>
-          <div className="flex items-center gap-3">
-            <span className="text-gray-600 dark:text-gray-300">Noten</span>
-            <button
-              onClick={() => setGradeType(prev => prev === 'grades' ? 'points' : 'grades')}
-              className={`relative inline-flex items-center h-6 rounded-full w-11 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 ${
-                gradeType === 'points' ? 'bg-primary-600' : 'bg-gray-400'
-              }`}
-              role="switch"
-              aria-checked={gradeType === 'points'}
-            >
-              <span className="sr-only">Bewertungsart umschalten</span>
-              <span
-                className={`inline-block w-4 h-4 transform bg-white rounded-full transition-transform ${
-                  gradeType === 'points' ? 'translate-x-6' : 'translate-x-1'
-                }`}
-              />
-            </button>
-            <span className="text-gray-600 dark:text-gray-300">Punkte</span>
-          </div>
+          <h2 className="text-xl font-bold text-gray-800 dark:text-white">Punkteeingabe</h2>
         </div>
         
         {renderSection('Klausuren', 'exam', STIWL_WEIGHTS.exam)}
