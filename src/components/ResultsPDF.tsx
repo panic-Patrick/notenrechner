@@ -105,3 +105,5 @@ const ResultsPDF: React.FC<ResultsPDFProps> = ({ results, average, gradeType }) 
     </Document>
   );
 }
+
+export default ResultsPDF
