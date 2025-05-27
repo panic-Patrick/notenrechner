@@ -53,7 +53,7 @@ const ResultDisplay: React.FC<ResultDisplayProps> = ({ results, average, error, 
           Ergebnisse
         </h2>
         <PDFDownloadLink
-          document={<ResultsPDF results={results} average={average} />}
+          document={<ResultsPDF results={results} average={average} gradeType={gradeType} />}
           fileName="notenrechner-ergebnisse.pdf"
           className="material-button bg-primary-500 hover:bg-primary-600 flex items-center gap-2"
         >
