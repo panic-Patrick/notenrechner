@@ -6,7 +6,7 @@ import { ChevronDown, Moon, Sun } from 'lucide-react';
 function App() {
   const [darkMode, setDarkMode] = useState(() => {
     const savedMode = localStorage.getItem('darkMode');
-    return savedMode ? JSON.parse(savedMode) : true; // Set dark mode as default
+    return savedMode ? JSON.parse(savedMode) : false;
   });
   const [showPrivacy, setShowPrivacy] = useState(false);
 
@@ -24,10 +24,8 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50/30 via-primary-100/30 to-primary-200/30 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 transition-colors duration-200">
-      <div className="absolute inset-0 bg-[url('https://images.pexels.com/photos/3075993/pexels-photo-3075993.jpeg')] opacity-5 bg-cover bg-center fixed pointer-events-none" />
-      
-      <header className="backdrop-blur-xl bg-white/70 dark:bg-gray-800/70 shadow-lg py-6 sticky top-0 z-50 transition-all duration-200">
+    <div className="min-h-screen bg-gradient-to-b from-primary-50 to-primary-100 dark:from-gray-900 dark:to-gray-800 transition-colors duration-200">
+      <header className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm shadow-md py-6 sticky top-0 z-50 transition-colors duration-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
           <div>
             <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary-600 to-primary-400 dark:from-primary-400 dark:to-primary-200 bg-clip-text text-transparent">
@@ -39,11 +37,11 @@ function App() {
           </div>
           <button
             onClick={toggleDarkMode}
-            className="material-button bg-gray-100/50 dark:bg-gray-700/50 hover:bg-gray-200/50 dark:hover:bg-gray-600/50 p-3 backdrop-blur-lg"
+            className="material-button bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 p-3"
             aria-label="Toggle dark mode"
           >
             {darkMode ? (
-              <Sun className="h-5 w-5 text-yellow-500" />
+              <Sun className="h-5 w-5 text-black-500" />
             ) : (
               <Moon className="h-5 w-5 text-gray-600" />
             )}
@@ -51,7 +49,7 @@ function App() {
         </div>
       </header>
       
-      <main className="max-w-4xl mx-auto px-4 py-8 sm:px-6 lg:px-8 relative z-10">
+      <main className="max-w-4xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
         <div className="mb-8 flex flex-col items-center text-center">
           <p className="text-gray-700 dark:text-gray-300 mb-4 max-w-2xl text-sm md:text-base">
             Gib deine Fächer, Noten und Gewichtungen ein, um deinen Durchschnitt zu berechnen.
@@ -64,7 +62,7 @@ function App() {
         <GradeCalculator />
       </main>
       
-      <footer className="py-6 mt-12 backdrop-blur-xl bg-white/70 dark:bg-gray-800/70 border-t border-gray-200/50 dark:border-gray-700/50 transition-all duration-200 relative z-10">
+      <footer className="py-6 mt-12 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700 transition-colors duration-200">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <p className="text-gray-600 dark:text-gray-400 text-xs md:text-sm">
             © {new Date().getFullYear()} Notenrechner | Alle Rechte vorbehalten |{' '}
