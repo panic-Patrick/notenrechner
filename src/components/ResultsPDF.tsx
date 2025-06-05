@@ -79,38 +79,34 @@ const styles = StyleSheet.create({
   },
   tableRow: {
     flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderColor: '#eee',
-    paddingVertical: 5,
+    justifyContent: 'space-between',
+    marginBottom: 10,
   },
-  tableHeader: {
+  gradeGroup: {
+    alignItems: 'center',
+    padding: 8,
     backgroundColor: '#f5f5f5',
-    fontWeight: 'bold',
+    borderRadius: 4,
+    width: '18%',
   },
-  tableCell: {
-    flex: 1,
+  gradeText: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    marginBottom: 4,
+  },
+  pointsText: {
     fontSize: 10,
-    textAlign: 'center',
+    color: '#666',
   },
 });
 
 const gradePointTable = [
-  { points: '15', grade: '1,0' },
-  { points: '14', grade: '1,3' },
-  { points: '13', grade: '1,7' },
-  { points: '12', grade: '2,0' },
-  { points: '11', grade: '2,3' },
-  { points: '10', grade: '2,7' },
-  { points: '9', grade: '3,0' },
-  { points: '8', grade: '3,3' },
-  { points: '7', grade: '3,7' },
-  { points: '6', grade: '4,0' },
-  { points: '5', grade: '4,3' },
-  { points: '4', grade: '4,7' },
-  { points: '3', grade: '5,0' },
-  { points: '2', grade: '5,3' },
-  { points: '1', grade: '5,7' },
-  { points: '0', grade: '6,0' },
+  { grade: '1,0', points: '15' },
+  { grade: '2,0', points: '12' },
+  { grade: '3,0', points: '9' },
+  { grade: '4,0', points: '6' },
+  { grade: '5,0', points: '3' },
+  { grade: '6,0', points: '0' },
 ];
 
 const ResultsPDF: React.FC<ResultsPDFProps> = ({ results, average }) => (
@@ -135,16 +131,14 @@ const ResultsPDF: React.FC<ResultsPDFProps> = ({ results, average }) => (
 
       <View style={styles.tableContainer}>
         <Text style={styles.tableTitle}>Punkte-Noten-Umrechnungstabelle:</Text>
-        <View style={[styles.tableRow, styles.tableHeader]}>
-          <Text style={styles.tableCell}>Punkte</Text>
-          <Text style={styles.tableCell}>Note</Text>
+        <View style={styles.tableRow}>
+          {gradePointTable.map((row, index) => (
+            <View key={index} style={styles.gradeGroup}>
+              <Text style={styles.gradeText}>Note {row.grade}</Text>
+              <Text style={styles.pointsText}>{row.points} Punkte</Text>
+            </View>
+          ))}
         </View>
-        {gradePointTable.map((row, index) => (
-          <View key={index} style={styles.tableRow}>
-            <Text style={styles.tableCell}>{row.points}</Text>
-            <Text style={styles.tableCell}>{row.grade}</Text>
-          </View>
-        ))}
       </View>
       
       <Text style={styles.footer}>
