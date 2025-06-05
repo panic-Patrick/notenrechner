@@ -2,14 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import SubjectEntry from './SubjectEntry';
 import ResultDisplay from './ResultDisplay';
-import { Subject, GradeResult, STIWL_WEIGHTS, GradeType } from '../types';
+import { Subject, GradeResult, STIWL_WEIGHTS } from '../types';
 
 const GradeCalculator: React.FC = () => {
   const [subjects, setSubjects] = useState<Subject[]>([]);
   const [results, setResults] = useState<GradeResult[]>([]);
   const [average, setAverage] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [gradeType] = useState<GradeType>('points');
 
   useEffect(() => {
     const initialSubjects = [
@@ -88,18 +87,18 @@ const GradeCalculator: React.FC = () => {
       const activeSubjects = subjectList.filter(s => s.grade);
       
       if (activeSubjects.length > 0) {
-        let categorySum = 0;
+        let weightedSum = 0;
         let totalWeight = 0;
 
         activeSubjects.forEach(subject => {
-          const value = parseFloat(subject.grade);
-          const weight = parseFloat(subject.multipleWeight || '1');
-          categorySum += value * weight;
+          const points = parseFloat(subject.grade);
+          const weight = parseInt(subject.multipleWeight || '1');
+          weightedSum += points * weight;
           totalWeight += weight;
         });
 
         categoryAverages[category as keyof typeof categoryAverages] = 
-          totalWeight > 0 ? categorySum / totalWeight : 0;
+          weightedSum / totalWeight;
       }
     });
 
@@ -157,7 +156,6 @@ const GradeCalculator: React.FC = () => {
               onChange={handleSubjectChange}
               onRemove={() => removeSubject(subject.id)}
               isRemovable={categorySubjects.length > 1}
-              gradeType={gradeType}
             />
           ))}
         </div>
@@ -196,7 +194,6 @@ const GradeCalculator: React.FC = () => {
         results={results} 
         average={average} 
         error={error}
-        gradeType={gradeType}
       />
     </div>
   );
