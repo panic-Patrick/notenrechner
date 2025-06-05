@@ -21,6 +21,9 @@ export default {
       animation: {
         ripple: 'ripple 0.6s linear',
       },
+      backdropBlur: {
+        xs: '2px',
+      },
     },
   },
   plugins: [],
