@@ -68,18 +68,19 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: '#333',
   },
-  tableRow: {
+  tableGrid: {
     flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderColor: '#eee',
-    paddingVertical: 5,
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
   },
-  tableHeader: {
+  tableItem: {
+    width: '23%',
+    marginBottom: 8,
+    padding: 6,
     backgroundColor: '#f5f5f5',
-    fontWeight: 'bold',
+    borderRadius: 4,
   },
-  tableCell: {
-    flex: 1,
+  tableItemText: {
     fontSize: 10,
     textAlign: 'center',
   },
@@ -135,16 +136,15 @@ const ResultsPDF: React.FC<ResultsPDFProps> = ({ results, average }) => (
 
       <View style={styles.tableContainer}>
         <Text style={styles.tableTitle}>Punkte-Noten-Umrechnungstabelle:</Text>
-        <View style={[styles.tableRow, styles.tableHeader]}>
-          <Text style={styles.tableCell}>Punkte</Text>
-          <Text style={styles.tableCell}>Note</Text>
+        <View style={styles.tableGrid}>
+          {gradePointTable.map((row, index) => (
+            <View key={index} style={styles.tableItem}>
+              <Text style={styles.tableItemText}>
+                {row.points} Punkte = {row.grade}
+              </Text>
+            </View>
+          ))}
         </View>
-        {gradePointTable.map((row, index) => (
-          <View key={index} style={styles.tableRow}>
-            <Text style={styles.tableCell}>{row.points}</Text>
-            <Text style={styles.tableCell}>{row.grade}</Text>
-          </View>
-        ))}
       </View>
       
       <Text style={styles.footer}>
