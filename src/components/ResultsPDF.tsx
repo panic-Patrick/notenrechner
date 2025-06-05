@@ -57,15 +57,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 10,
   },
-  footer: {
-    position: 'absolute',
-    bottom: 30,
-    left: 30,
-    right: 30,
-    textAlign: 'center',
-    color: '#666',
-    fontSize: 10,
-  },
   tableContainer: {
     marginTop: 40,
     borderTop: 1,
@@ -91,6 +82,15 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 10,
     textAlign: 'center',
+  },
+  footer: {
+    position: 'absolute',
+    bottom: 30,
+    left: 30,
+    right: 30,
+    textAlign: 'center',
+    color: '#666',
+    fontSize: 10,
   },
 });
 
@@ -123,14 +123,14 @@ const ResultsPDF: React.FC<ResultsPDFProps> = ({ results, average }) => (
         <View key={index} style={styles.resultRow}>
           <Text style={styles.subject}>{result.subjectName || 'Unbenanntes Fach'}</Text>
           <Text style={styles.points}>
-            {result.grade.toFixed(1)} Punkte ({result.weight})
+            {Math.round(result.grade)} Punkte ({result.weight})
           </Text>
         </View>
       ))}
       
       <View style={styles.averageContainer}>
         <Text style={styles.averageLabel}>Gewichteter Punktedurchschnitt:</Text>
-        <Text style={styles.averageValue}>{average.toFixed(2)} Punkte</Text>
+        <Text style={styles.averageValue}>{Math.round(average)} Punkte</Text>
       </View>
 
       <View style={styles.tableContainer}>
