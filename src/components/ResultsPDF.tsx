@@ -57,6 +57,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 10,
   },
+  footer: {
+    position: 'absolute',
+    bottom: 30,
+    left: 30,
+    right: 30,
+    textAlign: 'center',
+    color: '#666',
+    fontSize: 10,
+  },
   tableContainer: {
     marginTop: 40,
     borderTop: 1,
@@ -68,30 +77,20 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     color: '#333',
   },
-  tableGrid: {
+  tableRow: {
     flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderColor: '#eee',
+    paddingVertical: 5,
   },
-  tableItem: {
-    width: '23%',
-    marginBottom: 8,
-    padding: 6,
+  tableHeader: {
     backgroundColor: '#f5f5f5',
-    borderRadius: 4,
+    fontWeight: 'bold',
   },
-  tableItemText: {
+  tableCell: {
+    flex: 1,
     fontSize: 10,
     textAlign: 'center',
-  },
-  footer: {
-    position: 'absolute',
-    bottom: 30,
-    left: 30,
-    right: 30,
-    textAlign: 'center',
-    color: '#666',
-    fontSize: 10,
   },
 });
 
@@ -124,27 +123,28 @@ const ResultsPDF: React.FC<ResultsPDFProps> = ({ results, average }) => (
         <View key={index} style={styles.resultRow}>
           <Text style={styles.subject}>{result.subjectName || 'Unbenanntes Fach'}</Text>
           <Text style={styles.points}>
-            {Math.round(result.grade)} Punkte ({result.weight})
+            {result.grade.toFixed(1)} Punkte ({result.weight})
           </Text>
         </View>
       ))}
       
       <View style={styles.averageContainer}>
         <Text style={styles.averageLabel}>Gewichteter Punktedurchschnitt:</Text>
-        <Text style={styles.averageValue}>{Math.round(average)} Punkte</Text>
+        <Text style={styles.averageValue}>{average.toFixed(2)} Punkte</Text>
       </View>
 
       <View style={styles.tableContainer}>
         <Text style={styles.tableTitle}>Punkte-Noten-Umrechnungstabelle:</Text>
-        <View style={styles.tableGrid}>
-          {gradePointTable.map((row, index) => (
-            <View key={index} style={styles.tableItem}>
-              <Text style={styles.tableItemText}>
-                {row.points} Punkte = {row.grade}
-              </Text>
-            </View>
-          ))}
+        <View style={[styles.tableRow, styles.tableHeader]}>
+          <Text style={styles.tableCell}>Punkte</Text>
+          <Text style={styles.tableCell}>Note</Text>
         </View>
+        {gradePointTable.map((row, index) => (
+          <View key={index} style={styles.tableRow}>
+            <Text style={styles.tableCell}>{row.points}</Text>
+            <Text style={styles.tableCell}>{row.grade}</Text>
+          </View>
+        ))}
       </View>
       
       <Text style={styles.footer}>
