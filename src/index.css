@@ -22,13 +22,28 @@
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
   }
 
+  .high-contrast .material-shadow {
+    box-shadow: none;
+    border: 2px solid black;
+  }
+
   .material-button {
     @apply px-6 py-2 rounded-full font-medium text-white transform transition-all duration-300;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
   }
 
+  .high-contrast .material-button {
+    @apply text-black border-2 border-black bg-white;
+    box-shadow: none;
+  }
+
   .material-button:hover {
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    transform: translateY(-1px);
+  }
+
+  .high-contrast .material-button:hover {
+    @apply bg-black text-white;
     transform: translateY(-1px);
   }
 
@@ -37,13 +52,22 @@
   }
 
   .material-card {
-    @apply bg-white dark:bg-gray-800 rounded-lg p-6;
+    @apply bg-white dark:bg-gray-800 high-contrast:bg-white rounded-lg p-6;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   }
 
+  .high-contrast .material-card {
+    @apply border-2 border-black;
+    box-shadow: none;
+  }
+
   .material-input {
-    @apply w-full px-4 py-2 rounded-md border-0 bg-gray-50 dark:bg-gray-700 focus:ring-2 focus:ring-blue-500 transition-all duration-200;
+    @apply w-full px-4 py-2 rounded-md border-0 bg-gray-50 dark:bg-gray-700 high-contrast:bg-white high-contrast:border-2 high-contrast:border-black focus:ring-2 focus:ring-blue-500 high-contrast:focus:ring-black transition-all duration-200;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+  }
+
+  .high-contrast .material-input {
+    box-shadow: none;
   }
 }
 
@@ -63,4 +87,16 @@
     transform: scale(4);
     opacity: 0;
   }
+}
+
+.high-contrast {
+  @apply bg-white;
+}
+
+.high-contrast * {
+  @apply border-black text-black;
+}
+
+.high-contrast input::placeholder {
+  @apply text-gray-900;
 }
