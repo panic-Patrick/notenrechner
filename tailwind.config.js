@@ -23,5 +23,9 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require('tailwindcss/plugin')(({ addVariant }) => {
+      addVariant('high-contrast', '.high-contrast &')
+    }),
+  ],
 };
